@@ -123,12 +123,7 @@ window.addEventListener("DOMContentLoaded", () => {
           }
           return
         }
-        // OTP verified successfully
-        feedbackMsg.textContent = "OTP verified! Redirecting..."
-        feedbackMsg.style.color = "green"
-        // Optionally redirect or update UI here
-        submitBtn.disabled = true
-        submitBtn.innerHTML = originalBtnText
+        window.location.href = "/"
       } catch (error) {
         feedbackMsg.textContent = "An error occurred. Please try again."
         feedbackMsg.style.color = "#ff5938"

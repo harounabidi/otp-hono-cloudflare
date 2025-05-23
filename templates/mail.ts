@@ -17,18 +17,18 @@ export default function template(otp: string) {
           </style>
           <![endif]-->
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
         body,
         table,
         td,
         a {
-          font-family: 'Geist Mono', monospace;
+          font-family: 'Inter', sans-serif;
         }
       </style>
     </head>
     <body class="fallback-font"
-      style="font-family: 'Geist Mono', monospace; line-height: 1.6; color: #333333; margin: 0; padding: 0; background-color: #f4f4f4;">
+      style="font-family: 'Inter', sans-serif; line-height: 1.6; color: #333333; margin: 0; padding: 0; background-color: #f4f4f4;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding: 20px;">
         <tr>
           <td>
