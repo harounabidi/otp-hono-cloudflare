@@ -1,9 +1,140 @@
-import { Hono } from "hono";
+import Loader from "../components/icons/loader"
 
-const app = new Hono<{ Bindings: CloudflareBindings }>();
+window.addEventListener("DOMContentLoaded", () => {
+  const authForm = document.querySelector("form") as HTMLFormElement
+  const emailField = document.querySelector(
+    "input[name='email']"
+  ) as HTMLInputElement
 
-app.get("/message", (c) => {
-  return c.text("Hello Hono!");
-});
+  const otpField = document.querySelector(
+    "input[name='otp']"
+  ) as HTMLInputElement
 
-export default app;
+  const submitBtn = document.querySelector(
+    "button[type='submit']"
+  ) as HTMLButtonElement
+
+  const feedbackMsg = document.querySelector("#message") as HTMLParagraphElement
+
+  let authStep = 1 // 1: email, 2: otp
+
+  emailField.addEventListener("input", () => {
+    feedbackMsg.textContent = ""
+    feedbackMsg.style.display = "none"
+    emailField.style.borderColor = ""
+  })
+
+  otpField.addEventListener("input", () => {
+    feedbackMsg.textContent = ""
+    feedbackMsg.style.display = "none"
+    otpField.style.borderColor = ""
+  })
+
+  authForm?.addEventListener("submit", async (e) => {
+    e.preventDefault()
+    submitBtn.disabled = true
+    const originalBtnText = submitBtn.textContent ?? ""
+    submitBtn.innerHTML = Loader()
+
+    if (authStep === 1) {
+      // Step 1: Send email to /api/login
+      const formData = new FormData(authForm)
+      const email = formData.get("email")
+      try {
+        const loginResponse = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        })
+        const loginResult: { success?: boolean; error?: string } =
+          await loginResponse.json()
+        if (loginResult.error) {
+          feedbackMsg.style.display = "block"
+          feedbackMsg.textContent = loginResult.error
+          feedbackMsg.style.color = "#ff5938"
+          submitBtn.disabled = false
+          submitBtn.innerHTML = originalBtnText
+
+          if (loginResult.error === "Invalid email") {
+            emailField.focus()
+            emailField.style.borderColor = "#ff5938"
+          }
+          return
+        }
+        // Success: show OTP input
+        feedbackMsg.setAttribute("hidden", "true")
+        otpField.removeAttribute("hidden")
+        otpField.setAttribute("required", "true")
+        otpField.focus()
+        authStep = 2
+        submitBtn.disabled = false
+        submitBtn.innerHTML = "Verify OTP"
+      } catch (error) {
+        feedbackMsg.textContent = "An error occurred. Please try again."
+        feedbackMsg.style.color = "#ff5938"
+        submitBtn.disabled = false
+        submitBtn.innerHTML = originalBtnText
+      }
+    } else if (authStep === 2) {
+      // Step 2: Verify OTP
+      const email = emailField.value
+      const otp = otpField.value
+      if (!otp) {
+        alert("Please enter the OTP")
+        submitBtn.disabled = false
+        submitBtn.innerHTML = originalBtnText
+        return
+      }
+      try {
+        const verifyResponse = await fetch("/api/verify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email, otp }),
+        })
+        const verifyResult = (await verifyResponse.json()) as {
+          success: boolean
+          error?: string
+        }
+        if (!verifyResponse.ok || verifyResult.error) {
+          feedbackMsg.style.display = "block"
+          feedbackMsg.textContent =
+            verifyResult.error || `HTTP error! status: ${verifyResponse.status}`
+          feedbackMsg.style.color = "#ff5938"
+
+          submitBtn.disabled = false
+          submitBtn.innerHTML = originalBtnText
+
+          if (verifyResult.error === "Invalid email") {
+            emailField.focus()
+            emailField.style.borderColor = "#ff5938"
+          }
+
+          if (
+            verifyResult.error === "OTP must be 6 digits" ||
+            verifyResult.error === "Invalid OTP"
+          ) {
+            otpField.focus()
+            otpField.style.borderColor = "#ff5938"
+          }
+          return
+        }
+        // OTP verified successfully
+        feedbackMsg.textContent = "OTP verified! Redirecting..."
+        feedbackMsg.style.color = "green"
+        // Optionally redirect or update UI here
+        submitBtn.disabled = true
+        submitBtn.innerHTML = originalBtnText
+      } catch (error) {
+        feedbackMsg.textContent = "An error occurred. Please try again."
+        feedbackMsg.style.color = "#ff5938"
+        submitBtn.disabled = false
+        submitBtn.innerHTML = originalBtnText
+      }
+    }
+  })
+})
