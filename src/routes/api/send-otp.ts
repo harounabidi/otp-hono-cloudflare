@@ -1,4 +1,4 @@
-import { Router } from "../../../lib/app"
+import { Router } from "../../../server/app"
 import template from "../../../templates/mail"
 import {
   MAX_SEND_COUNT,
@@ -8,7 +8,7 @@ import {
 import { hash } from "../../../utils/hash"
 import { get, set } from "../../../utils/kv"
 import { cooldown, isOnCooldown, mail } from "../../../utils/mail"
-import { randomInt } from "../../../utils/random"
+import { generateSixDigitOTP } from "../../../utils/random"
 import { loginValidator } from "../../../schemas/auth"
 
 const router = Router()
@@ -18,7 +18,7 @@ const send = router.post("/api/login", loginValidator, async (c) => {
 
   await isOnCooldown(c, email)
 
-  const otp = randomInt()
+  const otp = generateSixDigitOTP()
 
   const hashedOtp = await hash(otp)
 
@@ -45,7 +45,7 @@ const send = router.post("/api/login", loginValidator, async (c) => {
     from: c.env.NEXT_PUBLIC_ZEPTOMAIL_FROM,
     email,
     subject: "Your OTP Code",
-    body: template(otp),
+    body: template(otp, OTP_EXPIRATION_TIME),
     name: "Haroon Abidi",
   })
 

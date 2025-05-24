@@ -1,12 +1,12 @@
 import { sign } from "hono/jwt"
-import { Router } from "../../../lib/app"
+import { Router } from "../../../server/app"
 import {
   LONG_COOL_DOWN_TIME,
   MAX_RETRY_COUNT,
   OTP_EXPIRATION_TIME,
 } from "../../../utils/constants"
 import { compare } from "../../../utils/hash"
-import { dele, get, set } from "../../../utils/kv"
+import { deleteKey, get, set } from "../../../utils/kv"
 import { cooldown } from "../../../utils/mail"
 import { verifyValidator } from "../../../schemas/auth"
 import { setCookie } from "hono/cookie"
@@ -66,7 +66,7 @@ const verify = router.post("/api/verify", verifyValidator, async (c) => {
 export default verify
 
 // await Promise.all([
-//   dele(c.env.KV, `otp:${email}`),
-//   dele(c.env.KV, `otp_retry_count:${email}`),
-//   dele(c.env.KV, `otp_cooldown:${email}`),
+//   deleteKey(c.env.KV, `otp:${email}`),
+//   deleteKey(c.env.KV, `otp_retry_count:${email}`),
+//   deleteKey(c.env.KV, `otp_cooldown:${email}`),
 // ])

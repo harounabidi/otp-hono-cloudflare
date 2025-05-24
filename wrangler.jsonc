@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "otp",
-  "main": "src/_worker.ts",
+  "main": "src/index.ts",
   "compatibility_date": "2025-05-21",
   "minify": true,
   "kv_namespaces": [

@@ -1,4 +1,4 @@
-export default function template(otp: string) {
+export default function template(otp: string, expiration: number): string {
   return /*html*/ `
   <!DOCTYPE html>
   <html lang="en">
@@ -49,7 +49,9 @@ export default function template(otp: string) {
                       ${otp}
                     </span>
                   </div>
-                  <p style="margin-bottom: 20px; text-align: center; font-size: 14px;">This code will expire in 2 minutes.
+                  <p style="margin-bottom: 20px; text-align: center; font-size: 14px;">This code will expire in ${
+                    expiration / 60
+                  } minutes.
                   </p>
                   <p style="margin-bottom: 20px; text-align: center; font-size: 14px;">If you didn't request this code,
                     please ignore this email.</p>

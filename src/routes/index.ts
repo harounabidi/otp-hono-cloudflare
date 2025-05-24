@@ -1,4 +1,4 @@
-import { Router } from "../../lib/app"
+import { Router } from "../../server/app"
 import Home from "../pages/home"
 
 const index = Router().get("/", (c) => {
