@@ -105,8 +105,8 @@ utils/                 # Utility functions
 1. **Clone and install dependencies:**
 
    ```sh
-   git clone https://github.com/harounabidi/otp.git
-   cd otp
+   git clone https://github.com/harounabidi/otp-hono-cloudflare.git
+   cd otp-hono-cloudflare
    bun install
    ```
 
