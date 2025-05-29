@@ -40,9 +40,9 @@ const send = router.post("/api/login", loginValidator, async (c) => {
   )
 
   await mail({
-    url: c.env.NEXT_PUBLIC_ZEPTOMAIL_API_URL,
-    token: c.env.NEXT_PUBLIC_ZEPTOMAIL_TOKEN,
-    from: c.env.NEXT_PUBLIC_ZEPTOMAIL_FROM,
+    url: c.env.ZEPTOMAIL_API_URL,
+    token: c.env.ZEPTOMAIL_TOKEN,
+    from: c.env.ZEPTOMAIL_FROM,
     email,
     subject: "Your OTP Code",
     body: template(otp, OTP_EXPIRATION_TIME),

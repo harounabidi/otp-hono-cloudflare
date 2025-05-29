@@ -1,8 +1,8 @@
 export interface Env {
   KV: KVNamespace
-  NEXT_PUBLIC_ZEPTOMAIL_API_URL: string
-  NEXT_PUBLIC_ZEPTOMAIL_TOKEN: string
-  NEXT_PUBLIC_ZEPTOMAIL_FROM: string
+  ZEPTOMAIL_API_URL: string
+  ZEPTOMAIL_TOKEN: string
+  ZEPTOMAIL_FROM: string
   JWT_SECRET: string
   NODE_ENV: string
   ASSETS: {

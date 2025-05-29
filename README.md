@@ -115,9 +115,9 @@ utils/                 # Utility functions
    Create `.dev.vars` file:
 
    ```env
-   NEXT_PUBLIC_ZEPTOMAIL_API_URL=https://api.zeptomail.com/v1.1/email
-   NEXT_PUBLIC_ZEPTOMAIL_TOKEN=your_zeptomail_token
-   NEXT_PUBLIC_ZEPTOMAIL_FROM=noreply@yourdomain.com
+   ZEPTOMAIL_API_URL=https://api.zeptomail.com/v1.1/email
+   ZEPTOMAIL_TOKEN=your_zeptomail_token
+   ZEPTOMAIL_FROM=noreply@yourdomain.com
    JWT_SECRET=your_super_secure_jwt_secret
    NODE_ENV=development
    ```
@@ -175,13 +175,13 @@ utils/                 # Utility functions
 
 Configure these variables in `.dev.vars` (development) or Cloudflare Worker settings (production):
 
-| Variable                        | Description                               | Example                                |
-| ------------------------------- | ----------------------------------------- | -------------------------------------- |
-| `NEXT_PUBLIC_ZEPTOMAIL_API_URL` | ZeptoMail API endpoint                    | `https://api.zeptomail.com/v1.1/email` |
-| `NEXT_PUBLIC_ZEPTOMAIL_TOKEN`   | ZeptoMail API authentication token        | `your_zeptomail_token`                 |
-| `NEXT_PUBLIC_ZEPTOMAIL_FROM`    | Email sender address                      | `noreply@yourdomain.com`               |
-| `JWT_SECRET`                    | Secret key for JWT signing (min 32 chars) | `your_super_secure_jwt_secret`         |
-| `NODE_ENV`                      | Environment mode                          | `development` or `production`          |
+| Variable            | Description                               | Example                                |
+| ------------------- | ----------------------------------------- | -------------------------------------- |
+| `ZEPTOMAIL_API_URL` | ZeptoMail API endpoint                    | `https://api.zeptomail.com/v1.1/email` |
+| `ZEPTOMAIL_TOKEN`   | ZeptoMail API authentication token        | `your_zeptomail_token`                 |
+| `ZEPTOMAIL_FROM`    | Email sender address                      | `noreply@yourdomain.com`               |
+| `JWT_SECRET`        | Secret key for JWT signing (min 32 chars) | `your_super_secure_jwt_secret`         |
+| `NODE_ENV`          | Environment mode                          | `development` or `production`          |
 
 ---
 
