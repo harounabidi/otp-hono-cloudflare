@@ -6,7 +6,7 @@ import {
   OTP_EXPIRATION_TIME,
 } from "../../../utils/constants"
 import { compare } from "../../../utils/hash"
-import { deleteKey, get, set } from "../../../utils/kv"
+import { get, set } from "../../../utils/kv"
 import { cooldown } from "../../../utils/mail"
 import { verifyValidator } from "../../../schemas/auth"
 import { setCookie } from "hono/cookie"
@@ -64,9 +64,3 @@ const verify = router.post("/api/verify", verifyValidator, async (c) => {
 })
 
 export default verify
-
-// await Promise.all([
-//   deleteKey(c.env.KV, `otp:${email}`),
-//   deleteKey(c.env.KV, `otp_retry_count:${email}`),
-//   deleteKey(c.env.KV, `otp_cooldown:${email}`),
-// ])
